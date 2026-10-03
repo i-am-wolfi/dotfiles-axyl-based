@@ -196,7 +196,7 @@ super + {Left,Down,Up,Right}
 
 # change i3wm theme
 super + {t}
-	bash /usr/local/bin/theme-changer
+	bash $HOME/.config/i3/bin/theme-switch.sh
 
 # run as root
 super + F1
