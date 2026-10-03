@@ -208,7 +208,7 @@ super + F2
 
 # Logout Menu
 super + {x}
-	bash /home/Wolf/.config/i3/logout-menu.sh
+	bash $HOME/.config/i3/logout-menu.sh
 
 # music control
 super +  {F9,F10,F11}

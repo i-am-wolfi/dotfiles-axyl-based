@@ -179,4 +179,4 @@ configuration {
 	me-accept-custom: "Control+MouseDPrimary";
 */
 }
-@theme "/home/Wolf/.local/share/rofi/themes/rounded-blue-dark.rasi"
+@theme "$HOME/.local/share/rofi/themes/rounded-blue-dark.rasi"
