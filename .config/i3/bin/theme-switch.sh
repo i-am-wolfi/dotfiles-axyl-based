@@ -27,7 +27,11 @@ SRC="$THEMESDIR/$THEME"
 [[ -d "$SRC" ]] || { echo "Tema '$THEME' não existe em $THEMESDIR" >&2; list_themes >&2; exit 1; }
 
 # espelha tema -> ~/.config/i3 (preserva subpastas polybar/, bin/, alacritty/)
-rsync -a --delete --exclude='themes/' "$SRC"/ "$I3DIR"/
+if command -v rsync >/dev/null; then
+    rsync -a --delete --exclude='themes/' "$SRC"/ "$I3DIR"/
+else
+    cp -a "$SRC"/. "$I3DIR"/
+fi
 # garante wallpapers com nome fixo que o fehbg espera
 for w in wallpaper.jpg wallpaper.png wallpaper.jpeg; do
     [[ -f "$I3DIR/$w" ]] || true
