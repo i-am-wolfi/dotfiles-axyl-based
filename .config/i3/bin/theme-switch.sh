@@ -30,7 +30,7 @@ SRC="$THEMESDIR/$THEME"
 # sem --delete de propósito: temas não têm todos os arquivos (theme-switch.sh,
 # speedup/speeddown, logout-menu.sh); apagar o que falta quebraria os atalhos.
 if command -v rsync >/dev/null; then
-    rsync -a --exclude='themes/' "$SRC"/ "$I3DIR"/
+    rsync -aI --exclude='themes/' "$SRC"/ "$I3DIR"/
 else
     cp -a "$SRC"/. "$I3DIR"/
 fi
