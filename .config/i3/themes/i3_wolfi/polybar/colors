@@ -1,0 +1,44 @@
+[color]
+
+background = #55070410
+black = #3B4252
+red = #BF616A
+
+# i3 unselected icons
+foreground = #cccccccc
+
+# ram/download bg
+green = #100515
+#green = #ff1f2c3d
+
+# cpu/upload bg
+yellow = #090415
+#yellow = #ff263747
+
+# arch/clock bg
+blue = #0F003E
+
+# separator/i3 icons bg
+altblack = #1F004E
+
+# temp/volume bg
+cyan = #FF070515
+
+# text color
+text = #ffffff
+
+# arch logo
+arch = #7F00AE
+
+# i3 icons
+icons = #9F00CE
+
+altred = #BF616A
+altgreen = #A3BE8C
+altyellow = #EBCB8B
+altblue = #81A1C1
+altmagenta = #B48EAD
+altcyan = #8FBCBB
+altwhite = #ECEFF4
+magenta = #B48EAD
+white = #E5E9F0

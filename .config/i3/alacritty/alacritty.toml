@@ -1,0 +1,42 @@
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "#666666"
+blue = "#7aa6da"
+cyan = "#b77ee0"
+green = "#9ec400"
+magenta = "#54ced6"
+red = "#ff3334"
+white = "#ffffff"
+yellow = "#e7c547"
+
+[colors.normal]
+black = "#000000"
+blue = "#7aa6da"
+cyan = "#c397d8"
+green = "#b9ca4a"
+magenta = "#70c0ba"
+red = "#d54e53"
+white = "#eaeaea"
+yellow = "#e6c547"
+
+[colors.primary]
+background = "#091220"
+foreground = "#ffffff"
+
+[env]
+LANG = "pt_BR.UTF-8"
+LC_CTYPE = "pt_BR.UTF-8"
+TERM = "alacritty"
+
+[font]
+size = 10
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Medium"
+
+[window.padding]
+x = 10
+y = 10

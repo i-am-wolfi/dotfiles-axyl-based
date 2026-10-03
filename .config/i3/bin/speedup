@@ -1,0 +1,26 @@
+#!/bin/bash
+print_bytes() {
+    if [ "$1" -eq 0 ] || [ "$1" -lt 1000 ]; then bytes="0 kB/s"
+    elif [ "$1" -lt 1000000 ]; then bytes="$(echo "$1/1000" | bc -l | LANG=C xargs printf "%.f\n") kB/s"
+    else bytes="$(echo "$1/1000000" | bc -l | LANG=C xargs printf "%.1f\n") MB/s"; fi
+    echo "$bytes "
+}
+INTERVAL=1
+get_interfaces() { ip -o link show up | awk -F': ' '{print $2}' | cut -d'@' -f1 | grep -vx 'lo' | tr '\n' ' '; }
+declare -A past
+init_iface() { past[$1]=$(cat /sys/class/net/"$1"/statistics/tx_bytes 2>/dev/null || echo 0); }
+INTERFACES=$(get_interfaces); [ -z "$INTERFACES" ] && INTERFACES="lo"
+for i in $INTERFACES; do init_iface "$i"; done
+while true; do
+    INTERFACES=$(get_interfaces); [ -z "$INTERFACES" ] && INTERFACES="lo"
+    up=0
+    for interface in $INTERFACES; do
+        [ -r /sys/class/net/"$interface"/statistics/tx_bytes ] || continue
+        now=$(cat /sys/class/net/"$interface"/statistics/tx_bytes)
+        [ -z "${past[$interface]}" ] && past[$interface]=$now
+        up=$((up + (now - past[$interface]) / INTERVAL))
+        past[$interface]=$now
+    done
+    echo " $(print_bytes $up)"
+    sleep $INTERVAL
+done
