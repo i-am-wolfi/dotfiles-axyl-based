@@ -199,4 +199,4 @@ for_window [window_type="dialog"] floating enable, resize set 600 400, move posi
 ##~~~ Default setting
 exec_always --no-startup-id "~/.config/i3/bin/autostart.sh"
 exec --no-startup-id abdownloadmanager
-bindsym $mod+t exec ~/.config/i3/bin/theme-switch.sh
+bindsym $mod+Shift+t exec $HOME/.config/i3/bin/theme-switch.sh
