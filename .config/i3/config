@@ -121,7 +121,6 @@ set $ws4 "4"
 set $ws5 "5"
 set $ws6 "6"
 set $ws7 "7"
-set $ws7 "8"
 
 # switch to workspace
 bindsym $mod+1 workspace number $ws1
@@ -131,7 +130,6 @@ bindsym $mod+4 workspace number $ws4
 bindsym $mod+5 workspace number $ws5
 bindsym $mod+6 workspace number $ws6
 bindsym $mod+7 workspace number $ws7
-bindsym $mod+8 workspace number $ws8
 
 # move focused container to workspace
 bindsym $mod+Shift+1 move container to workspace number $ws1
@@ -141,7 +139,6 @@ bindsym $mod+Shift+4 move container to workspace number $ws4
 bindsym $mod+Shift+5 move container to workspace number $ws5
 bindsym $mod+Shift+6 move container to workspace number $ws6
 bindsym $mod+Shift+7 move container to workspace number $ws7
-bindsym $mod+Shift+8 move container to workspace number $ws8
 
 
 
@@ -172,31 +169,25 @@ bindsym $mod+d exec rofi -show drun -config ~/.config/i3/config.rasi
 ##~~~ Rules For Workspaces ~~~~~~~~~~~~~~~~~~~~
 ##
 
-assign [class="Chromium|falkon|Vivaldi-stable|firefox|Brave"] 1
-assign [class="discord|bitwarden-desktop|Alacritty"] 2
-assign [class="Telegr*|scrcpy|Nemo|FileZilla"] 3
+assign [class="Chromium|Vivaldi-stable"] 1
+assign [class="discord"] 2
+assign [class="telegram-desktop|scrcpy"] 3
 assign [class="Geany|Code|Mousepad"] 4
-assign [class="Gimp-2.10|Inkscape"] 5
-assign [class="Stremio|mpv|vlc|spotify|kodi.bin"] 6
-assign [class="abdownloadmanager"] 7
-assign [class="PPSSPP|duckstation"] 8
+assign [class="Gimp-2.10|mpv|Inkscape"] 5
+assign [class="vlc"] 6
+assign [class="VirtualBox Manager"] 7
 
 ##~~~ Rules For Windows ~~~~~~~~~~~~~~~~~~~~~~~
 ##
 
 for_window [window_role="pop-up"] floating enable
 for_window [window_role="task_dialog"] floating enable
-for_window [window_type="dialog"] floating enable
+
 for_window [class="zoom"] floating enable
 for_window [class="Alafloat|Matplotlib"] floating enable
 for_window [class="Onboard|Yad"] floating enable
 for_window [class="feh|Viewnior|MPlayer"] floating enable
 
-for_window [window_type="pop-up"] floating enable, resize set 600 400, move position center
-for_window [window_type="task_dialog"] floating enable, resize set 600 400, move position center
-for_window [window_type="dialog"] floating enable, resize set 600 400, move position center
-
 ##~~~ Default setting
 exec_always --no-startup-id "~/.config/i3/bin/autostart.sh"
-exec --no-startup-id abdownloadmanager
-bindsym $mod+Shift+t exec $HOME/.config/i3/bin/theme-switch.sh
+bindsym $mod+Shift+t exec ~/.config/i3/bin/theme-switch.sh

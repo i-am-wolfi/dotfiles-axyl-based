@@ -190,3 +190,4 @@ for_window [class="feh|Viewnior|MPlayer"] floating enable
 
 ##~~~ Default setting
 exec_always --no-startup-id "~/.config/i3/bin/autostart.sh"
+bindsym $mod+Shift+t exec ~/.config/i3/bin/theme-switch.sh
