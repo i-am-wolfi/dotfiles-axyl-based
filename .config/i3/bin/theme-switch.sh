@@ -27,8 +27,10 @@ SRC="$THEMESDIR/$THEME"
 [[ -d "$SRC" ]] || { echo "Tema '$THEME' não existe em $THEMESDIR" >&2; list_themes >&2; exit 1; }
 
 # espelha tema -> ~/.config/i3 (preserva subpastas polybar/, bin/, alacritty/)
+# sem --delete de propósito: temas não têm todos os arquivos (theme-switch.sh,
+# speedup/speeddown, logout-menu.sh); apagar o que falta quebraria os atalhos.
 if command -v rsync >/dev/null; then
-    rsync -a --delete --exclude='themes/' "$SRC"/ "$I3DIR"/
+    rsync -a --exclude='themes/' "$SRC"/ "$I3DIR"/
 else
     cp -a "$SRC"/. "$I3DIR"/
 fi
