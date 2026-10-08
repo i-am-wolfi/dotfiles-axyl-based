@@ -70,7 +70,7 @@ format-muted = <label-muted>
 format-muted-prefix = " "
 format-muted-prefix-font = 2
 format-muted-prefix-foreground = ${color.text}
-format-muted-prefix-background = ${color.yellow}
+format-muted-prefix-background = ${color.cyan}
 
 label-volume = "%percentage%% "
 label-muted = "Mute"
@@ -176,7 +176,6 @@ ws-icon-3 = 4;
 ws-icon-4 = 5;
 ws-icon-5 = 6;
 ws-icon-6 = 7;漣
-ws-icon-7 = 8;
 format = <label-state><label-mode>
 format-background = ${color.text}
 
@@ -359,7 +358,7 @@ tail = true
 format-padding = 0
 format-prefix-foreground = ${color.text}
 format-foreground = ${color.text}
-format-background = ${color.green}
+format-background = ${color.yellow}
 
 [module/speeddown]
 type = custom/script
@@ -368,4 +367,4 @@ tail = true
 format-padding = 0
 format-prefix-foreground = ${color.text}
 format-foreground = ${color.text}
-format-background = ${color.yellow}
+format-background = ${color.green}

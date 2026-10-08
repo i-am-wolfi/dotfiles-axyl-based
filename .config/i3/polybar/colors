@@ -7,11 +7,11 @@ red = #BF616A
 # i3 unselected icons
 foreground = #cccccccc
 
-# ram/upload bg
+# ram/download bg
 green = #ff263747
 #green = #ff1f2c3d
 
-# cpu/download bg
+# cpu/upload bg
 yellow = #ff1f2c3d
 #yellow = #ff263747
 

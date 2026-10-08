@@ -354,7 +354,7 @@ warn-temperature = 60
 
 [module/speedup]
 type = custom/script
-exec = ~/.config/speedup
+exec = ~/.config/i3/bin/speedup
 tail = true
 format-padding = 0
 format-prefix-foreground = ${color.text}
@@ -363,7 +363,7 @@ format-background = ${color.yellow}
 
 [module/speeddown]
 type = custom/script
-exec = ~/.config/speeddown
+exec = ~/.config/i3/bin/speeddown
 tail = true
 format-padding = 0
 format-prefix-foreground = ${color.text}

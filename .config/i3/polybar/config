@@ -56,7 +56,7 @@ font-3 = "Iosevka Nerd Font:size=18;4"
 
 modules-left = spacing BLD launcher BRD dot CLD temperature LPC cpu LPY memory GRD
 modules-center = LD i3 RD
-modules-right = GLD speedup YPL speeddown CPL volume CRD dot BLD time BRD spacing
+modules-right = GLD speeddown YPL speedup CPL volume CRD dot BLD time BRD spacing
 
 spacing = 0
 dim-value = 1.0
