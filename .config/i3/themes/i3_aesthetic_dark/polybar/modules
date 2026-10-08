@@ -338,17 +338,13 @@ ramp-signal-background = ${color.magenta}
 ramp-signal-font = 2
 
 [module/temperature]
-type = internal/temperature
-interval = 1
-format-prefix = " "
+type = custom/script
+exec = ~/.config/i3/bin/temp
+tail = true
 format-padding = 0
 format-prefix-foreground = ${color.text}
 format-foreground = ${color.text}
 format-background = ${color.cyan}
-thermal-zone = 0
-hwmon-path = /sys/devices/platform/coretemp.0/hwmon/hwmon0/temp2_input
-base-temperature = 20
-warn-temperature = 60
 
 ##########################################
 

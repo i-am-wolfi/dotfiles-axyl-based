@@ -1,0 +1,42 @@
+#!/bin/bash
+INTERVAL=2
+get_temp_raw() {
+    for h in /sys/class/hwmon/hwmon*; do
+        [ "$(cat "$h/name" 2>/dev/null)" = "coretemp" ] || continue
+        for t in "$h"/temp*_input; do
+            [ -r "$t" ] || continue
+            lbl=$(cat "${t%_input}_label" 2>/dev/null)
+            if [ "$lbl" = "Package id 0" ]; then cat "$t"; return 0; fi
+        done
+    done
+    max=0
+    for h in /sys/class/hwmon/hwmon*; do
+        [ "$(cat "$h/name" 2>/dev/null)" = "coretemp" ] || continue
+        for t in "$h"/temp*_input; do
+            v=$(cat "$t" 2>/dev/null) || continue
+            [ "$v" -gt "$max" ] 2>/dev/null && max=$v
+        done
+    done
+    [ "$max" -gt 0 ] && { echo "$max"; return 0; }
+    for z in /sys/class/thermal/thermal_zone*; do
+        [ "$(cat "$z/type" 2>/dev/null)" = "x86_pkg_temp" ] || continue
+        cat "$z/temp" 2>/dev/null && return 0
+    done
+    max=0
+    for z in /sys/class/thermal/thermal_zone*; do
+        v=$(cat "$z/temp" 2>/dev/null) || continue
+        [ "$v" -gt "$max" ] 2>/dev/null && max=$v
+    done
+    [ "$max" -gt 0 ] && { echo "$max"; return 0; }
+    return 1
+}
+while true; do
+    raw=$(get_temp_raw 2>/dev/null)
+    if [ -n "$raw" ] && [ "$raw" -gt 0 ] 2>/dev/null; then
+        c=$((raw / 1000))
+        echo "  ${c}°C"
+    else
+        echo "  --°C"
+    fi
+    sleep $INTERVAL
+done
