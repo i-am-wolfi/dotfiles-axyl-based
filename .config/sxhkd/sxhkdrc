@@ -58,17 +58,11 @@ XF86Audio{RaiseVolume,LowerVolume,Mute}
 XF86MonBrightness{Up,Down}
     brightness{ --up, --down}
 
-# screenshot
-Print
-    takeshot --now
-
-# screenshot active window
-ctrl + Print
-    takeshot --win
-
-# screenshot selected area
-ctrl + shift + Print
-    takeshot --area
+# screenshot: desativado aqui (takeshot não existe) — i3 assumiu o Print:
+# Print=full, Shift+Print=área, $MOD+Print=janela (ver config do i3).
+# Se quiser pelo sxhkd, use: Print -> ~/.config/i3/bin/screenshot full
+#Print
+#    ~/.config/i3/bin/screenshot full
 
 #
 #

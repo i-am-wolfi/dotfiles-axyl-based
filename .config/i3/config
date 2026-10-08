@@ -194,3 +194,8 @@ for_window [class="feh|Viewnior|MPlayer"] floating enable
 ##~~~ Default setting
 exec_always --no-startup-id "~/.config/i3/bin/autostart.sh"
 bindsym $mod+Shift+t exec ~/.config/i3/bin/theme-switch.sh
+
+# Printscreen (PrtSc): full / área / janela ativa (maim)
+bindsym Print exec ~/.config/i3/bin/screenshot full
+bindsym Shift+Print exec ~/.config/i3/bin/screenshot area
+bindsym $mod+Print exec ~/.config/i3/bin/screenshot window

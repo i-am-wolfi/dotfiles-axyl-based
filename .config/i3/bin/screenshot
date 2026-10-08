@@ -1,0 +1,38 @@
+#!/usr/bin/env bash
+# screenshot: tira print (maim) — Print=full, Shift+Print=área, $MOD+Print=janela.
+# Salva em ~/Pictures/Screenshots + copia p/ clipboard (xclip) + avisa no dunst.
+# Deps: maim (+ xdotool p/ janela ativa, xclip p/ clipboard). Instale:
+#   sudo pacman -S maim xclip xdotool
+set -euo pipefail
+MODE="${1:-full}"
+DIR="$HOME/Pictures/Screenshots"
+mkdir -p "$DIR"
+FILE="$DIR/$(date +%Y%m%d_%H%M%S)_screenshot.png"
+
+if ! command -v maim >/dev/null 2>&1; then
+  notify-send -u critical "screenshot" "maim não instalado: sudo pacman -S maim xclip xdotool" 2>/dev/null || true
+  echo "maim não instalado: sudo pacman -S maim xclip xdotool" >&2
+  exit 1
+fi
+
+case "$MODE" in
+  full) maim "$FILE" ;;
+  area) maim -s "$FILE" ;;
+  window)
+    if ! command -v xdotool >/dev/null 2>&1; then
+      notify-send -u critical "screenshot" "xdotool não instalado: sudo pacman -S xdotool" 2>/dev/null || true
+      exit 1
+    fi
+    maim -i "$(xdotool getactivewindow)" "$FILE"
+    ;;
+  *) echo "Uso: screenshot [full|area|window]" >&2; exit 1 ;;
+esac
+
+if command -v xclip >/dev/null 2>&1; then
+  xclip -selection clipboard -t image/png -i "$FILE" 2>/dev/null || true
+  EXTRA=" (copiado p/ clipboard)"
+else
+  EXTRA=""
+fi
+notify-send "screenshot" "Salvo em $FILE$EXTRA" 2>/dev/null || true
+echo "$FILE"

@@ -14,6 +14,12 @@ Scripts netspeed auto-detectam interface via `ip -o link show up`, temp auto-det
 Temas em `.config/i3/themes/` — troca com `Super+T` ou `Mod+Shift+T` (rofi).
 Dunst segue a paleta do polybar (borda azul-clara, texto branco, fundo escuro).
 
+## Printscreen (PrtSc)
+`Print` = tela cheia, `Shift+Print` = área (mira), `$MOD+Print` = janela ativa.
+Script `~/.config/i3/bin/screenshot` (maim): salva em `~/Pictures/Screenshots`,
+copia p/ clipboard (xclip) e avisa no dunst. Requer: `sudo pacman -S maim xclip xdotool`.
+(O bloco antigo `takeshot` do sxhkdrc foi desativado — programa não existe; i3 assumiu o Print.)
+
 ## MaterialYou (estilo Noctalia/Monet, dinâmico)
 Tema `MaterialYou` baseado no `i3_blue`, com cores puxadas do wallpaper via matugen
 (`.config/matugen/config.toml` + `templates/` → polybar, dunst, alacritty do i3, bordas do i3).
