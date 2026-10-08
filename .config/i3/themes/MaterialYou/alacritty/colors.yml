@@ -1,0 +1,28 @@
+# MaterialYou (matugen) alacritty — gerado de /home/Wolf/.config/i3/wallpaper.jpg
+colors:
+  # Default colors
+  primary:
+    background: '#111318'
+    foreground: '#e2e2e9'
+
+  # Normal colors
+  normal:
+    black:   '#282a2f'
+    red:     '#ffb4ab'
+    green:   '#bdc7dc'
+    yellow:  '#dcbce1'
+    blue:    '#a8c8ff'
+    magenta: '#dcbce1'
+    cyan:    '#bdc7dc'
+    white:   '#e2e2e9'
+
+  # Bright colors
+  bright:
+    black:   '#8e9099'
+    red:     '#ffb4ab'
+    green:   '#bdc7dc'
+    yellow:  '#dcbce1'
+    blue:    '#a8c8ff'
+    magenta: '#dcbce1'
+    cyan:    '#bdc7dc'
+    white:   '#e2e2e9'

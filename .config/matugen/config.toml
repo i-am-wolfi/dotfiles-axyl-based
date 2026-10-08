@@ -1,0 +1,26 @@
+[config]
+version_check = false
+fallback_color = "#7a67e4"
+prefer = "darkness"
+source_color_index = 0
+caching = false
+
+[templates.polybar]
+input_path = "~/.config/matugen/templates/polybar-colors"
+output_path = "~/.config/i3/polybar/colors"
+type = "SchemeTonalSpot"
+
+[templates.dunst]
+input_path = "~/.config/matugen/templates/dunstrc"
+output_path = "~/.config/i3/dunstrc"
+type = "SchemeTonalSpot"
+
+[templates.alacritty]
+input_path = "~/.config/matugen/templates/alacritty-colors.yml"
+output_path = "~/.config/i3/alacritty/colors.yml"
+type = "SchemeTonalSpot"
+
+[templates.i3config]
+input_path = "~/.config/matugen/templates/i3config"
+output_path = "~/.config/i3/config"
+type = "SchemeTonalSpot"

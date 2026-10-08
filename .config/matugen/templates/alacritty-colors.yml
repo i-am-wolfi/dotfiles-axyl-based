@@ -1,0 +1,28 @@
+# MaterialYou (matugen) alacritty — gerado de {{image}}
+colors:
+  # Default colors
+  primary:
+    background: '{{colors.background.default.hex}}'
+    foreground: '{{colors.on_surface.default.hex}}'
+
+  # Normal colors
+  normal:
+    black:   '{{colors.surface_container_high.default.hex}}'
+    red:     '{{colors.error.default.hex}}'
+    green:   '{{colors.secondary.default.hex}}'
+    yellow:  '{{colors.tertiary.default.hex}}'
+    blue:    '{{colors.primary.default.hex}}'
+    magenta: '{{colors.tertiary.default.hex}}'
+    cyan:    '{{colors.secondary.default.hex}}'
+    white:   '{{colors.on_surface.default.hex}}'
+
+  # Bright colors
+  bright:
+    black:   '{{colors.outline.default.hex}}'
+    red:     '{{colors.error.default.hex}}'
+    green:   '{{colors.secondary.default.hex}}'
+    yellow:  '{{colors.tertiary.default.hex}}'
+    blue:    '{{colors.primary.default.hex}}'
+    magenta: '{{colors.tertiary.default.hex}}'
+    cyan:    '{{colors.secondary.default.hex}}'
+    white:   '{{colors.on_surface.default.hex}}'

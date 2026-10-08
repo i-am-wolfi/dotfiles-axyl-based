@@ -1,0 +1,44 @@
+[color]
+; MaterialYou (matugen) — gerado de {{image}} source {{colors.source_color.default.hex}}
+; Não edite à mão: rode ~/.config/i3/bin/materialyou-set <wallpaper>
+
+background = #00000000
+black = {{colors.surface_container_high.default.hex}}
+red = {{colors.error.default.hex}}
+
+; i3 unselected icons
+foreground = {{colors.on_surface_variant.default.hex}}
+
+; ram/download bg
+green = {{colors.secondary_container.default.hex}}
+
+; cpu/upload bg
+yellow = {{colors.primary_container.default.hex}}
+
+; arch/clock bg
+blue = {{colors.primary_container.default.hex}}
+
+; separator/i3 icons bg
+altblack = {{colors.surface_container_high.default.hex}}
+
+; temp/volume bg
+cyan = {{colors.surface_container.default.hex}}
+
+; text color
+text = {{colors.on_surface.default.hex}}
+
+; arch logo
+arch = {{colors.primary.default.hex}}
+
+; i3 icons
+icons = {{colors.tertiary.default.hex}}
+
+altred = {{colors.error.default.hex}}
+altgreen = {{colors.secondary.default.hex}}
+altyellow = {{colors.tertiary.default.hex}}
+altblue = {{colors.primary.default.hex}}
+altmagenta = {{colors.secondary.default.hex}}
+altcyan = {{colors.on_surface_variant.default.hex}}
+altwhite = {{colors.on_surface.default.hex}}
+magenta = {{colors.tertiary.default.hex}}
+white = {{colors.on_surface.default.hex}}
