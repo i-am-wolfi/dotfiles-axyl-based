@@ -42,4 +42,6 @@ done
 bash "$I3DIR/fehbg" 2>/dev/null || true
 i3-msg restart >/dev/null
 bash "$I3DIR/bin/autostart.sh" >/dev/null 2>&1 &
+# garante dunst com o dunstrc do tema (autostart reinicia, reload pega o atual)
+( sleep 3; dunstctl reload >/dev/null 2>&1 || true ) &
 echo "Tema aplicado: $THEME"

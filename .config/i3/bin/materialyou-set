@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # MaterialYou para i3wm (estilo Noctalia/Monet): puxa cores do wallpaper via matugen.
 # Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp]  |  sem arg: usa wallpaper.* atual
-# Gera: polybar/colors, dunstrc, alacritty/colors.yml, i3 config (borders) + aplica tudo.
+# Gera: polybar/colors, dunstrc, alacritty/colors.yml+alacritty.toml, rofi-theme.rasi, i3 config (borders) + aplica tudo.
 set -euo pipefail
 # trava: dois picks rápidos seguidos não se atropelam no meio da geração
 exec 9>"$HOME/.cache/materialyou-set.lock"
@@ -78,9 +78,13 @@ if [[ -d "$I3DIR/themes/$THEME" ]]; then
   cp -f "$DEST" "$I3DIR/themes/$THEME/$dname"
 fi
 
-# 4. recarrega tudo
+# 4. recarrega tudo (dunst via reload no mesmo processo: o pkill+start antigo
+# disputava o bus e um dunst sem -config assumia com cores padrão)
 i3-msg restart >/dev/null 2>&1 || true
 bash "$I3DIR/bin/launchbar.sh" >/dev/null 2>&1 &
-pkill dunst 2>/dev/null || true
-setsid dunst >/dev/null 2>&1 < /dev/null &
+if ! dunstctl reload >/dev/null 2>&1; then
+  pkill -x dunst 2>/dev/null || true
+  sleep 1
+  setsid dunst -config "$I3DIR/dunstrc" >/dev/null 2>&1 < /dev/null &
+fi
 echo "MaterialYou aplicado de: $WALL -> $DEST"
