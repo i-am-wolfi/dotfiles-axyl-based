@@ -34,5 +34,5 @@ if command -v xclip >/dev/null 2>&1; then
 else
   EXTRA=""
 fi
-notify-send "screenshot" "Salvo em $FILE$EXTRA" 2>/dev/null || true
+notify-send -i "$FILE" "screenshot" "Salvo em $FILE$EXTRA" 2>/dev/null || true
 echo "$FILE"
