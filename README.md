@@ -23,5 +23,11 @@ Tema `MaterialYou` baseado no `i3_blue`, com cores puxadas do wallpaper via matu
 - Ativar o tema: `Super+T` → `MaterialYou`.
 - `$MOD+W` era `layout stacking`: foi p/ `$MOD+Ctrl+W`.
 - Alacritty no i3 abre com `~/.config/i3/alacritty/alacritty.toml` (vem da pasta do
-  tema ativo via theme-switch; MaterialYou regenera via matugen).
+  tema ativo via theme-switch; MaterialYou regenera via matugen, com
+  `opacity = 0.5` p/ o blur do picom fazer efeito).
   `~/.config/alacritty/` (Hyprland) fica intacto.
+- Rofi no MaterialYou usa `~/.config/i3/rofi-theme.rasi` (gerado via matugen,
+  redondo 24px + fonte JetBrainsMono); demais temas usam rounded-*-dark.
+  Picom (upstream, sem corner-radius por janela): `Rofi` entrou no
+  `blur-background-exclude` em todos os picom.conf — o blur quadrado vazava
+  nas pontas redondas; sem blur no rofi o halo some (shadow do Rofi já era excluído).

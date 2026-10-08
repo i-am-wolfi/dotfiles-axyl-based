@@ -1,4 +1,4 @@
-# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #020001
+# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #ef1c2f
 # Não edite à mão: ~/.config/i3/bin/materialyou-set
 # Lido pelo i3 via: alacritty --config-file ~/.config/i3/alacritty/alacritty.toml
 # (~/.config/alacritty/alacritty.toml do Hyprland fica intacto)
@@ -6,28 +6,28 @@
 draw_bold_text_with_bright_colors = true
 
 [colors.bright]
-black = "#9c8d93"
-blue = "#fbb0d7"
-cyan = "#dfbecc"
-green = "#dfbecc"
-magenta = "#f3ba9b"
+black = "#a08c8a"
+blue = "#ffb3ae"
+cyan = "#e7bdb9"
+green = "#e7bdb9"
+magenta = "#e2c28c"
 red = "#ffb4ab"
-white = "#eddfe3"
-yellow = "#f3ba9b"
+white = "#f1dedd"
+yellow = "#e2c28c"
 
 [colors.normal]
-black = "#30282b"
-blue = "#fbb0d7"
-cyan = "#dfbecc"
-green = "#dfbecc"
-magenta = "#f3ba9b"
+black = "#322827"
+blue = "#ffb3ae"
+cyan = "#e7bdb9"
+green = "#e7bdb9"
+magenta = "#e2c28c"
 red = "#ffb4ab"
-white = "#eddfe3"
-yellow = "#f3ba9b"
+white = "#f1dedd"
+yellow = "#e2c28c"
 
 [colors.primary]
-background = "#181115"
-foreground = "#eddfe3"
+background = "#1a1111"
+foreground = "#f1dedd"
 
 [env]
 LANG = "pt_BR.UTF-8"
@@ -40,6 +40,9 @@ size = 10
 [font.normal]
 family = "JetBrainsMono Nerd Font"
 style = "Medium"
+
+[window]
+opacity = 0.5
 
 [window.padding]
 x = 10

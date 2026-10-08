@@ -165,21 +165,21 @@ history = ctrl+grave
 context = ctrl+shift+period
 
 [urgency_low]
-frame_color = "#fbb0d7"
-foreground = "#eddfe3"
-background = "#181115"
+frame_color = "#ffb3ae"
+foreground = "#f1dedd"
+background = "#1a1111"
 timeout = 5
 
 [urgency_normal]
-frame_color = "#fbb0d7"
-foreground = "#eddfe3"
-background = "#181115"
+frame_color = "#ffb3ae"
+foreground = "#f1dedd"
+background = "#1a1111"
 timeout = 5
 
 [urgency_critical]
 frame_color = "#ffb4ab"
-foreground = "#eddfe3"
-background = "#181115"
+foreground = "#f1dedd"
+background = "#1a1111"
 timeout = 5
 
 

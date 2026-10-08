@@ -35,15 +35,15 @@ gaps outer 0
 ##~~~ Default Color Scheme (Everforest) 
 ##
 
-# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #020001
-client.background       #181115
+# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #ef1c2f
+client.background       #1a1111
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #fbb0d7 #fbb0d7 #511d3d #fbb0d7   #fbb0d7
-client.focused_inactive #58404c #58404c #eddfe3 #58404c   #58404c
-client.unfocused        #251d21 #251d21 #d4c2c8 #251d21   #251d21
+client.focused          #ffb3ae #ffb3ae #571e1c #ffb3ae   #ffb3ae
+client.focused_inactive #5d3f3d #5d3f3d #f1dedd #5d3f3d   #5d3f3d
+client.unfocused        #271d1d #271d1d #d8c2bf #271d1d   #271d1d
 client.urgent           #ffb4ab #ffb4ab #690005 #ffb4ab   #ffb4ab
-client.placeholder      #504349 #504349 #eddfe3 #504349   #504349
+client.placeholder      #534342 #534342 #f1dedd #534342   #534342
 
 
 ##~~~ Keybindings ~~~~~~~~~~~~~~~~~~~~~~

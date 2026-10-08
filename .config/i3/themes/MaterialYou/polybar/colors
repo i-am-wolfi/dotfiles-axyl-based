@@ -1,44 +1,44 @@
 [color]
-; MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #020001
+; MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #ef1c2f
 ; Não edite à mão: rode ~/.config/i3/bin/materialyou-set <wallpaper>
 
 background = #00000000
-black = #30282b
+black = #322827
 red = #ffb4ab
 
 ; i3 unselected icons
-foreground = #d4c2c8
+foreground = #d8c2bf
 
 ; ram/download bg
-green = #58404c
+green = #5d3f3d
 
 ; cpu/upload bg
-yellow = #6c3454
+yellow = #733330
 
 ; arch/clock bg
-blue = #6c3454
+blue = #733330
 
 ; separator/i3 icons bg
-altblack = #30282b
+altblack = #322827
 
 ; temp/volume bg
-cyan = #251d21
+cyan = #271d1d
 
 ; text color
-text = #eddfe3
+text = #f1dedd
 
 ; arch logo
-arch = #fbb0d7
+arch = #ffb3ae
 
 ; i3 icons
-icons = #f3ba9b
+icons = #e2c28c
 
 altred = #ffb4ab
-altgreen = #dfbecc
-altyellow = #f3ba9b
-altblue = #fbb0d7
-altmagenta = #dfbecc
-altcyan = #d4c2c8
-altwhite = #eddfe3
-magenta = #f3ba9b
-white = #eddfe3
+altgreen = #e7bdb9
+altyellow = #e2c28c
+altblue = #ffb3ae
+altmagenta = #e7bdb9
+altcyan = #d8c2bf
+altwhite = #f1dedd
+magenta = #e2c28c
+white = #f1dedd

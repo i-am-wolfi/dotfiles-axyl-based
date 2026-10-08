@@ -179,4 +179,4 @@ configuration {
 	me-accept-custom: "Control+MouseDPrimary";
 */
 }
-@theme "~/.local/share/rofi/themes/rounded-blue-dark.rasi"
+@theme "~/.config/i3/rofi-theme.rasi"
