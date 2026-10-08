@@ -1,5 +1,5 @@
 /*******************************************************************************
- * MATERIALYOU ROUNDED THEME FOR ROFI (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.png
+ * MATERIALYOU ROUNDED THEME FOR ROFI (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg
  * Não edite à mão: ~/.config/i3/bin/materialyou-set
  * Usado pelo tema i3 MaterialYou via config.rasi (@theme rofi-theme.rasi)
  * NOTA picom (upstream, sem corner-radius por janela): Rofi está em
@@ -8,10 +8,10 @@
 
 * {
     bg0:    #111318F2;
-    bg1:    #1d2024;
+    bg1:    #1e2025;
     bg2:    #282a2f80;
-    bg3:    #a9c7ffF2;
-    bg4:    #274777;
+    bg3:    #aac7ffF2;
+    bg4:    #284777;
     fg0:    #e2e2e9;
     fg1:    #e2e2e9;
     fg2:    #c4c6d0;

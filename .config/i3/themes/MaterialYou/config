@@ -35,15 +35,15 @@ gaps outer 0
 ##~~~ Default Color Scheme (Everforest) 
 ##
 
-# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #ef1c2f
-client.background       #1a1111
+# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #7fa1df
+client.background       #111318
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #ffb3ae #ffb3ae #571e1c #ffb3ae   #ffb3ae
-client.focused_inactive #5d3f3d #5d3f3d #f1dedd #5d3f3d   #5d3f3d
-client.unfocused        #271d1d #271d1d #d8c2bf #271d1d   #271d1d
+client.focused          #aac7ff #aac7ff #0b305f #aac7ff   #aac7ff
+client.focused_inactive #3e4759 #3e4759 #e2e2e9 #3e4759   #3e4759
+client.unfocused        #1e2025 #1e2025 #c4c6d0 #1e2025   #1e2025
 client.urgent           #ffb4ab #ffb4ab #690005 #ffb4ab   #ffb4ab
-client.placeholder      #534342 #534342 #f1dedd #534342   #534342
+client.placeholder      #44474e #44474e #e2e2e9 #44474e   #44474e
 
 
 ##~~~ Keybindings ~~~~~~~~~~~~~~~~~~~~~~
@@ -197,6 +197,7 @@ exec_always --no-startup-id "~/.config/i3/bin/autostart.sh"
 bindsym $mod+Shift+t exec ~/.config/i3/bin/theme-switch.sh
 
 # Printscreen (PrtSc): full / área / janela ativa (maim)
+# ATENÇÃO: atalhos vivem NESTE template (matugen regenera o config live a cada wallpaper)
 bindsym Print exec ~/.config/i3/bin/screenshot full
 bindsym Shift+Print exec ~/.config/i3/bin/screenshot area
 bindsym $mod+Print exec ~/.config/i3/bin/screenshot window
