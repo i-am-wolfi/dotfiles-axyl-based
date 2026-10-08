@@ -17,5 +17,5 @@ Dunst segue a paleta do polybar (borda azul-clara, texto branco, fundo escuro).
 ## MaterialYou (estilo Noctalia/Monet, dinâmico)
 Tema `MaterialYou` baseado no `i3_blue`, com cores puxadas do wallpaper via matugen
 (`.config/matugen/config.toml` + `templates/` → polybar, dunst, alacritty, i3 borders).
-Trocar de wallpaper e reaplicar: `~/.config/i3/bin/materialyou-set ~/Imagens/wallpaper.jpg`
+Trocar de wallpaper e reaplicar (jpg/jpeg/png/webp — webp é convertido p/ png via ffmpeg p/ o feh): `~/.config/i3/bin/materialyou-set ~/Imagens/wallpaper.webp`
 Ativar o tema: `Super+T` → `MaterialYou`.

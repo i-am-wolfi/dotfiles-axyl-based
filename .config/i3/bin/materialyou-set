@@ -1,42 +1,83 @@
 #!/usr/bin/env bash
 # MaterialYou para i3wm (estilo Noctalia/Monet): puxa cores do wallpaper via matugen.
-# Uso: materialyou-set [wallpaper]  |  sem arg: usa ~/.config/i3/wallpaper.jpg
+# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp]  |  sem arg: usa wallpaper.* atual
 # Gera: polybar/colors, dunstrc, alacritty/colors.yml, i3 config (borders) + aplica tudo.
 set -euo pipefail
 I3DIR="$HOME/.config/i3"
 THEME="MaterialYou"
-WALL="${1:-$I3DIR/wallpaper.jpg}"
 MATUGEN_BIN="$(command -v matugen || echo "$HOME/.local/bin/matugen")"
+
+resolve_wall() {
+    if [[ $# -ge 1 && -n "${1:-}" ]]; then echo "$1"; return 0; fi
+    local ext f
+    for ext in jpg jpeg png webp JPG JPEG PNG WEBP; do
+        f="$I3DIR/wallpaper.$ext"
+        if [[ -f "$f" ]]; then echo "$f"; return 0; fi
+    done
+    echo "$I3DIR/wallpaper.jpg"
+}
+WALL="$(resolve_wall "${1:-}")"
 
 if [[ ! -f "$WALL" ]]; then echo "Wallpaper não encontrado: $WALL" >&2; exit 1; fi
 if [[ ! -x "$MATUGEN_BIN" ]]; then
   echo "matugen não encontrado. Instale: sudo pacman -S matugen" >&2
-  echo "(ou baixe em https://github.com/InioX/matugen/releases -> ~/.local/bin/matugen)" >&2
   exit 1
 fi
 
 # garante templates/config do repo no lugar (caso só o tema tenha sido copiado)
-if [[ -d "$HOME/dotfiles/.config/matugen" && ! -f "$HOME/.config/matugen/config.toml" ]]; then
-  mkdir -p "$HOME/.config/matugen"; cp -a "$HOME/dotfiles/.config/matugen/." "$HOME/.config/matugen/"
+if [[ ! -f "$HOME/.config/matugen/config.toml" ]]; then
+  for src in "$HOME/dotfiles/.config/matugen" "$I3DIR/themes/$THEME/matugen"; do
+    if [[ -f "$src/config.toml" ]]; then mkdir -p "$HOME/.config/matugen"; cp -a "$src/." "$HOME/.config/matugen/"; break; fi
+  done
 fi
 
-# 1. wallpaper
-cp -f "$WALL" "$I3DIR/wallpaper.jpg"
-if command -v feh >/dev/null; then feh --bg-fill "$I3DIR/wallpaper.jpg"; fi
-[[ -f "$I3DIR/fehbg" ]] && sed -i "s|^feh .*|feh --bg-fill ~/.config/i3/wallpaper.jpg|" "$I3DIR/fehbg" || true
+ext="${WALL##*.}"
+ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
+case "$ext" in
+  jpg|jpeg|png|webp) ;;
+  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp)" >&2; exit 1 ;;
+esac
+
+# 1. normaliza wallpaper: webp -> png (feh pode não ler webp; matugen lê, mas feh é o gargalo)
+if [[ "$ext" == "webp" ]]; then
+  DEST="$I3DIR/wallpaper.png"
+  if command -v ffmpeg >/dev/null 2>&1; then
+    ffmpeg -hide_banner -loglevel error -y -i "$WALL" "$DEST"
+  else
+    cp -f "$WALL" "$DEST"
+  fi
+else
+  DEST="$I3DIR/wallpaper.$ext"
+  if [[ ! "$WALL" -ef "$DEST" ]]; then cp -f "$WALL" "$DEST"; fi
+fi
+# remove wallpapers obsoletos com outra extensão (evita fehbg ambíguo)
+for old in "$I3DIR"/wallpaper.jpg "$I3DIR"/wallpaper.jpeg "$I3DIR"/wallpaper.png "$I3DIR"/wallpaper.webp \
+           "$I3DIR"/wallpaper.JPG "$I3DIR"/wallpaper.JPEG "$I3DIR"/wallpaper.PNG "$I3DIR"/wallpaper.WEBP; do
+  if [[ "$old" != "$DEST" && -f "$old" ]]; then rm -f "$old"; fi
+done
+dname="$(basename "$DEST")"
+printf '#!/bin/sh\nfeh --bg-fill ~/.config/i3/%s\n' "$dname" > "$I3DIR/fehbg"
+chmod +x "$I3DIR/fehbg"
+if command -v feh >/dev/null; then feh --bg-fill "$DEST" 2>/dev/null || true; fi
 
 # 2. gera cores (dark, tonal-spot = Monet padrão; vibrant: -t scheme-vibrant)
-"$MATUGEN_BIN" image "$I3DIR/wallpaper.jpg" -m dark --source-color-index 0 2>&1 | tail -n 3 || true
+"$MATUGEN_BIN" image "$DEST" -m dark --source-color-index 0 2>&1 | tail -n 3 || true
 
 # 3. espelha resultado no tema (para git + theme-switch não perder)
-for f in polybar/colors dunstrc "alacritty/colors.yml" config; do
-  if [[ -f "$I3DIR/$f" && -d "$I3DIR/themes/$THEME" ]]; then cp -f "$I3DIR/$f" "$I3DIR/themes/$THEME/$f"; fi
-done
-cp -f "$I3DIR/wallpaper.jpg" "$I3DIR/themes/$THEME/wallpaper.jpg" 2>/dev/null || true
+if [[ -d "$I3DIR/themes/$THEME" ]]; then
+  for f in polybar/colors dunstrc "alacritty/colors.yml" config fehbg; do
+    if [[ -f "$I3DIR/$f" ]]; then cp -f "$I3DIR/$f" "$I3DIR/themes/$THEME/$f"; fi
+  done
+  for old in "$I3DIR/themes/$THEME"/wallpaper.jpg "$I3DIR/themes/$THEME"/wallpaper.jpeg \
+             "$I3DIR/themes/$THEME"/wallpaper.png "$I3DIR/themes/$THEME"/wallpaper.webp; do
+    if [[ "$old" != "$I3DIR/themes/$THEME/$dname" && -f "$old" ]]; then rm -f "$old"; fi
+  done
+  cp -f "$DEST" "$I3DIR/themes/$THEME/$dname"
+fi
 
 # 4. recarrega tudo
 i3-msg restart >/dev/null 2>&1 || true
 bash "$I3DIR/bin/launchbar.sh" >/dev/null 2>&1 &
 pkill dunst 2>/dev/null || true
 setsid dunst >/dev/null 2>&1 < /dev/null &
-echo "MaterialYou aplicado de: $WALL"
+echo "MaterialYou aplicado de: $WALL -> $DEST"
