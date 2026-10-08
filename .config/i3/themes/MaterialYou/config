@@ -35,15 +35,15 @@ gaps outer 0
 ##~~~ Default Color Scheme (Everforest) 
 ##
 
-# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #0a1628
-client.background       #111318
+# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #020001
+client.background       #181115
 
 # class                 border  backgr. text    indicator child_border
-client.focused          #a8c8ff #a8c8ff #07305f #a8c8ff   #a8c8ff
-client.focused_inactive #3e4758 #3e4758 #e2e2e9 #3e4758   #3e4758
-client.unfocused        #1d2024 #1d2024 #c4c6cf #1d2024   #1d2024
+client.focused          #fbb0d7 #fbb0d7 #511d3d #fbb0d7   #fbb0d7
+client.focused_inactive #58404c #58404c #eddfe3 #58404c   #58404c
+client.unfocused        #251d21 #251d21 #d4c2c8 #251d21   #251d21
 client.urgent           #ffb4ab #ffb4ab #690005 #ffb4ab   #ffb4ab
-client.placeholder      #43474e #43474e #e2e2e9 #43474e   #43474e
+client.placeholder      #504349 #504349 #eddfe3 #504349   #504349
 
 
 ##~~~ Keybindings ~~~~~~~~~~~~~~~~~~~~~~
@@ -97,7 +97,10 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+w layout stacking
+# $MOD+W: escolhe wallpaper com preview (rofi) e aplica MaterialYou na hora
+bindsym $mod+w exec ~/.config/i3/bin/wallpaper-picker
+# stacking foi p/ Ctrl+W p/ liberar o $MOD+W
+bindsym $mod+Ctrl+w layout stacking
 bindsym $mod+e layout tabbed
 bindsym $mod+a layout toggle split
 

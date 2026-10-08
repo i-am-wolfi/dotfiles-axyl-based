@@ -3,6 +3,9 @@
 # Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp]  |  sem arg: usa wallpaper.* atual
 # Gera: polybar/colors, dunstrc, alacritty/colors.yml, i3 config (borders) + aplica tudo.
 set -euo pipefail
+# trava: dois picks rápidos seguidos não se atropelam no meio da geração
+exec 9>"$HOME/.cache/materialyou-set.lock"
+flock -n 9 || { echo "materialyou-set já rodando, aguarde..." >&2; exit 0; }
 I3DIR="$HOME/.config/i3"
 THEME="MaterialYou"
 MATUGEN_BIN="$(command -v matugen || echo "$HOME/.local/bin/matugen")"
@@ -65,7 +68,7 @@ if command -v feh >/dev/null; then feh --bg-fill "$DEST" 2>/dev/null || true; fi
 
 # 3. espelha resultado no tema (para git + theme-switch não perder)
 if [[ -d "$I3DIR/themes/$THEME" ]]; then
-  for f in polybar/colors dunstrc "alacritty/colors.yml" config fehbg; do
+  for f in polybar/colors dunstrc "alacritty/colors.yml" "alacritty/alacritty.toml" config fehbg; do
     if [[ -f "$I3DIR/$f" ]]; then cp -f "$I3DIR/$f" "$I3DIR/themes/$THEME/$f"; fi
   done
   for old in "$I3DIR/themes/$THEME"/wallpaper.jpg "$I3DIR/themes/$THEME"/wallpaper.jpeg \

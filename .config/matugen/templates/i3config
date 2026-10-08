@@ -97,7 +97,10 @@ bindsym $mod+v split v
 bindsym $mod+f fullscreen toggle
 
 # change container layout (stacked, tabbed, toggle split)
-bindsym $mod+w layout stacking
+# $MOD+W: escolhe wallpaper com preview (rofi) e aplica MaterialYou na hora
+bindsym $mod+w exec ~/.config/i3/bin/wallpaper-picker
+# stacking foi p/ Ctrl+W p/ liberar o $MOD+W
+bindsym $mod+Ctrl+w layout stacking
 bindsym $mod+e layout tabbed
 bindsym $mod+a layout toggle split
 

@@ -1,0 +1,46 @@
+# MaterialYou (matugen) — gerado de {{image}} source {{colors.source_color.default.hex}}
+# Não edite à mão: ~/.config/i3/bin/materialyou-set
+# Lido pelo i3 via: alacritty --config-file ~/.config/i3/alacritty/alacritty.toml
+# (~/.config/alacritty/alacritty.toml do Hyprland fica intacto)
+[colors]
+draw_bold_text_with_bright_colors = true
+
+[colors.bright]
+black = "{{colors.outline.default.hex}}"
+blue = "{{colors.primary.default.hex}}"
+cyan = "{{colors.secondary.default.hex}}"
+green = "{{colors.secondary.default.hex}}"
+magenta = "{{colors.tertiary.default.hex}}"
+red = "{{colors.error.default.hex}}"
+white = "{{colors.on_surface.default.hex}}"
+yellow = "{{colors.tertiary.default.hex}}"
+
+[colors.normal]
+black = "{{colors.surface_container_high.default.hex}}"
+blue = "{{colors.primary.default.hex}}"
+cyan = "{{colors.secondary.default.hex}}"
+green = "{{colors.secondary.default.hex}}"
+magenta = "{{colors.tertiary.default.hex}}"
+red = "{{colors.error.default.hex}}"
+white = "{{colors.on_surface.default.hex}}"
+yellow = "{{colors.tertiary.default.hex}}"
+
+[colors.primary]
+background = "{{colors.background.default.hex}}"
+foreground = "{{colors.on_surface.default.hex}}"
+
+[env]
+LANG = "pt_BR.UTF-8"
+LC_CTYPE = "pt_BR.UTF-8"
+TERM = "alacritty"
+
+[font]
+size = 10
+
+[font.normal]
+family = "JetBrainsMono Nerd Font"
+style = "Medium"
+
+[window.padding]
+x = 10
+y = 10

@@ -16,6 +16,12 @@ Dunst segue a paleta do polybar (borda azul-clara, texto branco, fundo escuro).
 
 ## MaterialYou (estilo Noctalia/Monet, dinâmico)
 Tema `MaterialYou` baseado no `i3_blue`, com cores puxadas do wallpaper via matugen
-(`.config/matugen/config.toml` + `templates/` → polybar, dunst, alacritty, i3 borders).
-Trocar de wallpaper e reaplicar (jpg/jpeg/png/webp — webp é convertido p/ png via ffmpeg p/ o feh): `~/.config/i3/bin/materialyou-set ~/Imagens/wallpaper.webp`
-Ativar o tema: `Super+T` → `MaterialYou`.
+(`.config/matugen/config.toml` + `templates/` → polybar, dunst, alacritty do i3, bordas do i3).
+- Trocar pelo rofi (com preview): `$MOD+W` → `wallpaper-picker` (jpg/jpeg/png/webp;
+  webp vira png via ffmpeg). É o fluxo oficial: trocar na mão (feh/cp) NÃO regenera as cores.
+- Trocar pelo terminal: `~/.config/i3/bin/materialyou-set ~/Imagens/wallpaper.webp`
+- Ativar o tema: `Super+T` → `MaterialYou`.
+- `$MOD+W` era `layout stacking`: foi p/ `$MOD+Ctrl+W`.
+- Alacritty no i3 abre com `~/.config/i3/alacritty/alacritty.toml` (vem da pasta do
+  tema ativo via theme-switch; MaterialYou regenera via matugen).
+  `~/.config/alacritty/` (Hyprland) fica intacto.

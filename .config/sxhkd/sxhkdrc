@@ -6,9 +6,9 @@
 super + Escape
     pkill -USR1 -x sxhkd
 
-# Launch Terminal
+# Launch Terminal (cores do tema i3 ativo; hyprland usa ~/.config/alacritty)
 super + Return
-    alacritty
+    alacritty --config-file ~/.config/i3/alacritty/alacritty.toml
     #xfce4-terminal
     #terminal
 

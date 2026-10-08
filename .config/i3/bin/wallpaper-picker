@@ -1,0 +1,70 @@
+#!/usr/bin/env bash
+# wallpaper-picker: escolhe wallpaper com preview (rofi) e aplica na hora.
+# $MOD+W -> este script -> materialyou-set (matugen extrai as cores e aplica:
+# polybar, dunst, alacritty do i3, bordas do i3).
+# Trocar o wallpaper na mão (feh/cp) NÃO regenera as cores — use este picker
+# ou rode direto: ~/.config/i3/bin/materialyou-set <arquivo.jpg|jpeg|png|webp>
+set -euo pipefail
+I3DIR="$HOME/.config/i3"
+WALLDIRS=()
+if [[ -n "${WALLPAPER_DIR:-}" && -d "$WALLPAPER_DIR" ]]; then WALLDIRS+=("$WALLPAPER_DIR"); fi
+[[ -d "$HOME/Imagens/Wallpapers" ]] && WALLDIRS+=("$HOME/Imagens/Wallpapers")
+[[ -d "$HOME/Pictures" ]] && WALLDIRS+=("$HOME/Pictures")
+[[ ${#WALLDIRS[@]} -eq 0 ]] && WALLDIRS+=("$HOME")
+THUMBCACHE="$HOME/.cache/i3-wallpaper-thumbs"
+
+collect() {
+  find "${WALLDIRS[@]}" -maxdepth 1 -type f \
+    \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \) -print0 2>/dev/null | sort -z
+}
+
+thumb_for() {
+  local img="$1" base ext thumb
+  base="$(basename "$img")"
+  ext="${base##*.}"
+  ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
+  if [[ "$ext" != "webp" ]]; then printf '%s' "$img"; return 0; fi
+  # rofi (gdk-pixbuf) pode não ler webp: gera thumb png em cache
+  mkdir -p "$THUMBCACHE"
+  thumb="$THUMBCACHE/${base%.*}.png"
+  if [[ ! -f "$thumb" || "$img" -nt "$thumb" ]]; then
+    if command -v ffmpeg >/dev/null 2>&1; then
+      ffmpeg -hide_banner -loglevel error -y -i "$img" -vf "scale=256:-1" "$thumb" 2>/dev/null || thumb="$img"
+    else
+      thumb="$img"
+    fi
+  fi
+  printf '%s' "$thumb"
+}
+
+# linhas no formato do rofi: texto\0icon\x1f<caminho> (bytes NUL vão por pipe, nunca em $())
+rows() {
+  while IFS= read -r -d '' img; do
+    printf '%s\0icon\x1f%s\n' "$(basename "$img")" "$(thumb_for "$img")"
+  done < <(collect)
+}
+
+if [[ "${1:-}" == "--list" ]]; then
+  while IFS= read -r -d '' img; do printf '%s\n' "$img"; done < <(collect)
+  exit 0
+fi
+
+if command -v rofi >/dev/null 2>&1 && [[ -n "${DISPLAY:-}" ]]; then
+  chosen="$(rows | rofi -dmenu -i -p "Wallpaper" -show-icons -config "$I3DIR/config.rasi" || true)"
+else
+  mapfile -t all < <(while IFS= read -r -d '' img; do basename "$img"; done < <(collect))
+  echo "Wallpapers:" >&2
+  for i in "${!all[@]}"; do printf '%3d) %s\n' "$((i+1))" "${all[$i]}" >&2; done
+  read -rp "Número: " n >&2
+  chosen="${all[$((n-1))]:-}"
+fi
+
+[[ -z "${chosen:-}" ]] && exit 0
+# resolve basename -> path (basenames são únicos na coleta)
+target=""
+while IFS= read -r -d '' img; do
+  if [[ "$(basename "$img")" == "$chosen" ]]; then target="$img"; break; fi
+done < <(collect)
+[[ -z "$target" ]] && { echo "Não achei: $chosen" >&2; exit 1; }
+
+exec "$I3DIR/bin/materialyou-set" "$target"

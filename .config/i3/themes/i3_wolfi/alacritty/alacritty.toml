@@ -4,9 +4,9 @@
 draw_bold_text_with_bright_colors = true
 
 [colors.bright]
-black = "#4C566A"
+black = "#4c566A"
 blue = "#81A1C1"
-cyan = "#8FBCBB"
+cyan = "#7755AA"
 green = "#A3BE8C"
 magenta = "#B48EAD"
 red = "#BF616A"
@@ -14,9 +14,9 @@ white = "#ECEFF4"
 yellow = "#EBCB8B"
 
 [colors.normal]
-black = "#3B4252"
+black = "#3b4252"
 blue = "#81A1C1"
-cyan = "#88C0D0"
+cyan = "#9977FF"
 green = "#A3BE8C"
 magenta = "#B48EAD"
 red = "#BF616A"
@@ -24,8 +24,8 @@ white = "#E5E9F0"
 yellow = "#EBCB8B"
 
 [colors.primary]
-background = "#2E3440"
-foreground = "#D8DEE9"
+background = "#060310"
+foreground = "#f0E0ff"
 
 [env]
 LANG = "pt_BR.UTF-8"

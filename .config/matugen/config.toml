@@ -20,6 +20,11 @@ input_path = "~/.config/matugen/templates/alacritty-colors.yml"
 output_path = "~/.config/i3/alacritty/colors.yml"
 type = "SchemeTonalSpot"
 
+[templates.alacritty_toml]
+input_path = "~/.config/matugen/templates/alacritty-toml"
+output_path = "~/.config/i3/alacritty/alacritty.toml"
+type = "SchemeTonalSpot"
+
 [templates.i3config]
 input_path = "~/.config/matugen/templates/i3config"
 output_path = "~/.config/i3/config"
