@@ -34,6 +34,11 @@ if command -v rsync >/dev/null; then
 else
     cp -a "$SRC"/. "$I3DIR"/
 fi
+# rasi compartilhado do rofi: se o tema tem o seu, deploya (~/.config/rofi)
+if [[ -f "$SRC/rofi/theme.rasi" ]]; then
+  mkdir -p "$HOME/.config/rofi"
+  cp -f "$SRC/rofi/theme.rasi" "$HOME/.config/rofi/theme.rasi"
+fi
 # garante wallpapers com nome fixo que o fehbg espera
 for w in wallpaper.jpg wallpaper.png wallpaper.jpeg; do
     [[ -f "$I3DIR/$w" ]] || true

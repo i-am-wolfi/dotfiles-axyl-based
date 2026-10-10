@@ -34,3 +34,8 @@ type = "SchemeTonalSpot"
 input_path = "~/.config/matugen/templates/rofi-theme.rasi"
 output_path = "~/.config/i3/rofi-theme.rasi"
 type = "SchemeTonalSpot"
+
+[templates.rofi_shared]
+input_path = "~/.config/matugen/templates/rofi-shared-theme"
+output_path = "~/.config/rofi/theme.rasi"
+type = "SchemeTonalSpot"

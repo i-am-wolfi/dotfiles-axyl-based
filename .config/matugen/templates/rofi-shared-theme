@@ -1,0 +1,15 @@
+/*
+  MaterialYou (matugen) — gerado de {{image}} source {{colors.source_color.default.hex}}
+  Não edite à mão: ~/.config/i3/bin/materialyou-set
+  Vars compartilhadas do rofi (logout-menu.rasi, wifi-bluetooth-menu.rasi).
+  bg - background / fg - foreground / br - border
+*/
+
+* {
+  main-fg:        {{colors.on_surface.default.hex}};
+  main-bg:        {{colors.surface.default.hex}};
+  main-br:        {{colors.primary.default.hex}};
+  input-bg:       {{colors.surface_container.default.hex}};
+  select-bg:      {{colors.primary_container.default.hex}};
+  select-fg:      {{colors.on_primary_container.default.hex}};
+}

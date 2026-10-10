@@ -76,6 +76,9 @@ if [[ -d "$I3DIR/themes/$THEME" ]]; then
     if [[ "$old" != "$I3DIR/themes/$THEME/$dname" && -f "$old" ]]; then rm -f "$old"; fi
   done
   cp -f "$DEST" "$I3DIR/themes/$THEME/$dname"
+  # rasi compartilhado do rofi (~/.config/rofi, fora do i3): backup no tema
+  mkdir -p "$I3DIR/themes/$THEME/rofi"
+  cp -f "$HOME/.config/rofi/theme.rasi" "$I3DIR/themes/$THEME/rofi/theme.rasi" 2>/dev/null || true
 fi
 
 # 4. recarrega tudo (dunst via reload no mesmo processo: o pkill+start antigo

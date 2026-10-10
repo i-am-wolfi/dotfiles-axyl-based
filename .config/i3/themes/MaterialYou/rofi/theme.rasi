@@ -1,0 +1,15 @@
+/*
+  MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #7fa1df
+  Não edite à mão: ~/.config/i3/bin/materialyou-set
+  Vars compartilhadas do rofi (logout-menu.rasi, wifi-bluetooth-menu.rasi).
+  bg - background / fg - foreground / br - border
+*/
+
+* {
+  main-fg:        #e2e2e9;
+  main-bg:        #111318;
+  main-br:        #aac7ff;
+  input-bg:       #1e2025;
+  select-bg:      #284777;
+  select-fg:      #d7e3ff;
+}
