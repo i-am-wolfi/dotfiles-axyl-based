@@ -21,6 +21,6 @@ while true; do
         down=$((down + (now - past[$interface]) / INTERVAL))
         past[$interface]=$now
     done
-    echo " $(print_bytes $down)"
+    echo " $(print_bytes $down)"
     sleep $INTERVAL
 done
