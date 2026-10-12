@@ -1,4 +1,4 @@
-# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #7fa1df
+# MaterialYou (matugen) — gerado de /home/Wolf/.config/i3/wallpaper.jpg source #4b6c8a
 # Não edite à mão: ~/.config/i3/bin/materialyou-set
 # Lido pelo i3 via: alacritty --config-file ~/.config/i3/alacritty/alacritty.toml
 # (~/.config/alacritty/alacritty.toml do Hyprland fica intacto)
@@ -6,28 +6,28 @@
 draw_bold_text_with_bright_colors = true
 
 [colors.bright]
-black = "#8e9099"
-blue = "#aac7ff"
-cyan = "#bec6dc"
-green = "#bec6dc"
-magenta = "#ddbce0"
+black = "#8c9198"
+blue = "#95cbff"
+cyan = "#a9c7ea"
+green = "#a9c7ea"
+magenta = "#d1b2f4"
 red = "#ffb4ab"
-white = "#e2e2e9"
-yellow = "#ddbce0"
+white = "#e0e2e8"
+yellow = "#d1b2f4"
 
 [colors.normal]
-black = "#282a2f"
-blue = "#aac7ff"
-cyan = "#bec6dc"
-green = "#bec6dc"
-magenta = "#ddbce0"
+black = "#272a2e"
+blue = "#95cbff"
+cyan = "#a9c7ea"
+green = "#a9c7ea"
+magenta = "#d1b2f4"
 red = "#ffb4ab"
-white = "#e2e2e9"
-yellow = "#ddbce0"
+white = "#e0e2e8"
+yellow = "#d1b2f4"
 
 [colors.primary]
-background = "#111318"
-foreground = "#e2e2e9"
+background = "#101418"
+foreground = "#e0e2e8"
 
 [env]
 LANG = "pt_BR.UTF-8"

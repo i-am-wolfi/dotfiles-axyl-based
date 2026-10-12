@@ -7,23 +7,23 @@ draw_bold_text_with_bright_colors = true
 
 [colors.bright]
 black = "{{colors.outline.default.hex}}"
-blue = "{{colors.primary.default.hex}}"
-cyan = "{{colors.secondary.default.hex}}"
-green = "{{colors.secondary.default.hex}}"
-magenta = "{{colors.tertiary.default.hex}}"
-red = "{{colors.error.default.hex}}"
+blue = "{{colors.primary.default.hex | saturate: 30.0, "hsl"}}"
+cyan = "{{colors.secondary.default.hex | saturate: 30.0, "hsl"}}"
+green = "{{colors.secondary.default.hex | saturate: 30.0, "hsl"}}"
+magenta = "{{colors.tertiary.default.hex | saturate: 30.0, "hsl"}}"
+red = "{{colors.error.default.hex | saturate: 30.0, "hsl"}}"
 white = "{{colors.on_surface.default.hex}}"
-yellow = "{{colors.tertiary.default.hex}}"
+yellow = "{{colors.tertiary.default.hex | saturate: 30.0, "hsl"}}"
 
 [colors.normal]
 black = "{{colors.surface_container_high.default.hex}}"
-blue = "{{colors.primary.default.hex}}"
-cyan = "{{colors.secondary.default.hex}}"
-green = "{{colors.secondary.default.hex}}"
-magenta = "{{colors.tertiary.default.hex}}"
-red = "{{colors.error.default.hex}}"
+blue = "{{colors.primary.default.hex | saturate: 30.0, "hsl"}}"
+cyan = "{{colors.secondary.default.hex | saturate: 30.0, "hsl"}}"
+green = "{{colors.secondary.default.hex | saturate: 30.0, "hsl"}}"
+magenta = "{{colors.tertiary.default.hex | saturate: 30.0, "hsl"}}"
+red = "{{colors.error.default.hex | saturate: 30.0, "hsl"}}"
 white = "{{colors.on_surface.default.hex}}"
-yellow = "{{colors.tertiary.default.hex}}"
+yellow = "{{colors.tertiary.default.hex | saturate: 30.0, "hsl"}}"
 
 [colors.primary]
 background = "{{colors.background.default.hex}}"
