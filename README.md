@@ -28,7 +28,9 @@ mutado, loop, hwdec, `stop` mata player+filhos (sem órfãos).
 O feh continua por baixo como fallback.
 O picker (`$MOD+W`) já lista vídeos e gifs (thumb via ffmpeg); ao escolher um, o
 `materialyou-set` extrai 1 frame do meio (vídeo) ou usa o 1º frame (gif) p/
-`wallpaper.jpg` (cores + fallback).
+`wallpaper.jpg` (cores + fallback) **e já começa a animação sozinho**
+(vídeo/gif anterior é parado; imagem estática para qualquer animação).
+Precisa de `xwinwrap-git` — sem ele, aplica só o frame e avisa no dunst.
 
 ## USB no dunst
 Conectou/removeu qualquer USB → aviso no dunst (produto + fabricante).
