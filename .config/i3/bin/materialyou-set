@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # MaterialYou para i3wm (estilo Noctalia/Monet): puxa cores do wallpaper via matugen.
-# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp|mp4|mkv|webm]  |  sem arg: usa wallpaper.* atual
+# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp|gif|mp4|mkv|webm]  |  sem arg: usa wallpaper.* atual
 # Gera: polybar/colors, dunstrc, alacritty/colors.yml+alacritty.toml, rofi-theme.rasi, i3 config (borders) + aplica tudo.
 set -euo pipefail
 # trava: dois picks rápidos seguidos não se atropelam no meio da geração
@@ -13,7 +13,7 @@ MATUGEN_BIN="$(command -v matugen || echo "$HOME/.local/bin/matugen")"
 resolve_wall() {
     if [[ $# -ge 1 && -n "${1:-}" ]]; then echo "$1"; return 0; fi
     local ext f
-    for ext in jpg jpeg png webp JPG JPEG PNG WEBP; do
+    for ext in jpg jpeg png webp gif JPG JPEG PNG WEBP GIF; do
         f="$I3DIR/wallpaper.$ext"
         if [[ -f "$f" ]]; then echo "$f"; return 0; fi
     done
@@ -37,7 +37,7 @@ fi
 ext="${WALL##*.}"
 ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
 case "$ext" in
-  jpg|jpeg|png|webp) ;;
+  jpg|jpeg|png|webp|gif) ;;
   mp4|mkv|webm)
     # vídeo: extrai 1 frame do meio p/ wallpaper.jpg (cores via matugen);
     # p/ rodar o vídeo no fundo: video-wallpaper start <arquivo>
@@ -48,7 +48,7 @@ case "$ext" in
     ffmpeg -hide_banner -loglevel error -y -ss "$MID" -i "$WALL" -vframes 1 "$FRAME"
     WALL="$FRAME"; ext="jpg"
     ;;
-  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp/mp4/mkv/webm)" >&2; exit 1 ;;
+  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp/gif/mp4/mkv/webm)" >&2; exit 1 ;;
 esac
 
 # 1. normaliza wallpaper: webp -> png (feh pode não ler webp; matugen lê, mas feh é o gargalo)
@@ -64,8 +64,8 @@ else
   if [[ ! "$WALL" -ef "$DEST" ]]; then cp -f "$WALL" "$DEST"; fi
 fi
 # remove wallpapers obsoletos com outra extensão (evita fehbg ambíguo)
-for old in "$I3DIR"/wallpaper.jpg "$I3DIR"/wallpaper.jpeg "$I3DIR"/wallpaper.png "$I3DIR"/wallpaper.webp \
-           "$I3DIR"/wallpaper.JPG "$I3DIR"/wallpaper.JPEG "$I3DIR"/wallpaper.PNG "$I3DIR"/wallpaper.WEBP; do
+for old in "$I3DIR"/wallpaper.jpg "$I3DIR"/wallpaper.jpeg "$I3DIR"/wallpaper.png "$I3DIR"/wallpaper.webp "$I3DIR"/wallpaper.gif \
+           "$I3DIR"/wallpaper.JPG "$I3DIR"/wallpaper.JPEG "$I3DIR"/wallpaper.PNG "$I3DIR"/wallpaper.WEBP "$I3DIR"/wallpaper.GIF; do
   if [[ "$old" != "$DEST" && -f "$old" ]]; then rm -f "$old"; fi
 done
 dname="$(basename "$DEST")"
@@ -82,7 +82,7 @@ if [[ -d "$I3DIR/themes/$THEME" ]]; then
     if [[ -f "$I3DIR/$f" ]]; then cp -f "$I3DIR/$f" "$I3DIR/themes/$THEME/$f"; fi
   done
   for old in "$I3DIR/themes/$THEME"/wallpaper.jpg "$I3DIR/themes/$THEME"/wallpaper.jpeg \
-             "$I3DIR/themes/$THEME"/wallpaper.png "$I3DIR/themes/$THEME"/wallpaper.webp; do
+             "$I3DIR/themes/$THEME"/wallpaper.png "$I3DIR/themes/$THEME"/wallpaper.webp "$I3DIR/themes/$THEME"/wallpaper.gif; do
     if [[ "$old" != "$I3DIR/themes/$THEME/$dname" && -f "$old" ]]; then rm -f "$old"; fi
   done
   cp -f "$DEST" "$I3DIR/themes/$THEME/$dname"

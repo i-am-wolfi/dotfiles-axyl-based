@@ -22,10 +22,13 @@ copia p/ clipboard (xclip) e avisa no dunst. Requer: `sudo pacman -S maim xclip 
 
 ## Wallpaper em vídeo (i3/X11)
 `xwinwrap + mpv`: instale com `pikaur -S xwinwrap-git` (mpv já vem no extra).
-`~/.config/i3/bin/video-wallpaper start <mp4|mkv|webm>` (mutado, loop, hwdec;
-`stop`/`status`). O feh continua por baixo como fallback.
-O picker (`$MOD+W`) já lista vídeos (thumb via ffmpeg); ao escolher um, o
-`materialyou-set` extrai 1 frame do meio p/ `wallpaper.jpg` (cores + fallback).
+`~/.config/i3/bin/video-wallpaper start [--gpu|--x11] <mp4|mkv|webm|gif>` —
+padrão `--x11` (com picom o `--vo=gpu` deixa o fundo preto; `--gpu` opt-in),
+mutado, loop, hwdec, `stop` mata player+filhos (sem órfãos).
+O feh continua por baixo como fallback.
+O picker (`$MOD+W`) já lista vídeos e gifs (thumb via ffmpeg); ao escolher um, o
+`materialyou-set` extrai 1 frame do meio (vídeo) ou usa o 1º frame (gif) p/
+`wallpaper.jpg` (cores + fallback).
 
 ## USB no dunst
 Conectou/removeu qualquer USB → aviso no dunst (produto + fabricante).

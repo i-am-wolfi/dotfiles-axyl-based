@@ -3,7 +3,7 @@
 # $MOD+W -> este script -> materialyou-set (matugen extrai as cores e aplica:
 # polybar, dunst, alacritty do i3, bordas do i3).
 # Trocar o wallpaper na mão (feh/cp) NÃO regenera as cores — use este picker
-# ou rode direto: ~/.config/i3/bin/materialyou-set <arquivo.jpg|jpeg|png|webp|mp4|mkv|webm>
+# ou rode direto: ~/.config/i3/bin/materialyou-set <arquivo.jpg|jpeg|png|webp|gif|mp4|mkv|webm>
 # (vídeo: extrai 1 frame p/ cores+fallback; p/ rodar no fundo: video-wallpaper start)
 set -euo pipefail
 I3DIR="$HOME/.config/i3"
@@ -17,7 +17,7 @@ THUMBCACHE="$HOME/.cache/i3-wallpaper-thumbs"
 collect() {
   find "${WALLDIRS[@]}" -maxdepth 1 -type f \
     \( -iname '*.jpg' -o -iname '*.jpeg' -o -iname '*.png' -o -iname '*.webp' \
-     -o -iname '*.mp4' -o -iname '*.mkv' -o -iname '*.webm' \) -print0 2>/dev/null | sort -z
+     -o -iname '*.mp4' -o -iname '*.mkv' -o -iname '*.webm' -o -iname '*.gif' \) -print0 2>/dev/null | sort -z
 }
 
 thumb_for() {
@@ -35,6 +35,7 @@ thumb_for() {
     if command -v ffmpeg >/dev/null 2>&1; then
       case "$ext" in
         mp4|mkv|webm) args=(-ss 3 -i "$img" -vframes 1 -vf "scale=256:-1") ;;
+        gif) args=(-i "$img" -vframes 1 -vf "scale=256:-1") ;;
         *) args=(-i "$img" -vf "scale=256:-1") ;;
       esac
       ffmpeg -hide_banner -loglevel error -y "${args[@]}" "$thumb" 2>/dev/null || thumb="$img"

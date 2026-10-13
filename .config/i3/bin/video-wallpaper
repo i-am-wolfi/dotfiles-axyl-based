@@ -1,11 +1,14 @@
 #!/usr/bin/env bash
 # video-wallpaper: wallpaper em vídeo no i3/X11 (xwinwrap + mpv).
-# Uso: video-wallpaper start <arquivo.mp4|mkv|webm> | stop | status
+# Uso: video-wallpaper start [--gpu|--x11] <arquivo.mp4|mkv|webm|gif> | stop | status
 # Deps: mpv (extra) + xwinwrap (AUR: pikaur -S xwinwrap-git).
+# Padrão --x11: com picom, --vo=gpu deixa o fundo PRETO (compositor não compõe
+# a janela do xwinwrap); --vo=x11 sempre compõe (custa mais CPU). --gpu opt-in.
 # O feh continua por baixo como fallback; o vídeo roda mutado em loop com hwdec.
 # Cores MaterialYou do vídeo: rode materialyou-set <mesmo-arquivo> (extrai 1 frame).
 set -euo pipefail
 PIDFILE="$HOME/.cache/video-wallpaper.pid"
+mkdir -p "$(dirname "$PIDFILE")" 2>/dev/null || true
 
 need() { command -v "$1" >/dev/null 2>&1 || { echo "Falta $1" >&2; exit 1; }; }
 alive() { [[ -f "$PIDFILE" ]] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; }
@@ -13,20 +16,33 @@ alive() { [[ -f "$PIDFILE" ]] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; }
 cmd="${1:-status}"
 case "$cmd" in
   start)
+    VO="x11"
+    if [[ "${2:-}" == "--gpu" ]]; then VO="gpu"; shift; fi
+    if [[ "${2:-}" == "--x11" ]]; then VO="x11"; shift; fi
     need xwinwrap; need mpv
-    VID="${2:-}"; [[ -f "$VID" ]] || { echo "Uso: video-wallpaper start <video>" >&2; exit 1; }
+    VID="${2:-}"; [[ -f "$VID" ]] || { echo "Uso: video-wallpaper start [--gpu|--x11] <video>" >&2; exit 1; }
     "$0" stop >/dev/null 2>&1 || true
-    setsid xwinwrap -ov -ni -s -st -sp -b -nf -un -fdt -- \
-      mpv --fullscreen --no-stop-screensaver --vo=gpu --hwdec=auto \
+    setsid env VIDEO_WALLPAPER=1 xwinwrap -ov -ni -s -st -sp -b -nf -un -fdt -argb -- \
+      mpv --fullscreen --no-stop-screensaver --vo="$VO" --hwdec=auto \
           --loop-file=inf --no-audio --panscan=1.0 \
           --no-osc --no-input-default-bindings --input-vo-keyboard=no \
           "$VID" >/dev/null 2>&1 < /dev/null &
     echo $! >"$PIDFILE"
-    echo "Vídeo no fundo: $VID (pid $(cat "$PIDFILE"))"
+    echo "Vídeo no fundo: $VID (vo=$VO, pid $(cat "$PIDFILE"))"
     ;;
   stop)
-    if alive; then kill "$(cat "$PIDFILE")" 2>/dev/null || true; rm -f "$PIDFILE"; echo "Vídeo parado."; else rm -f "$PIDFILE"; echo "Nada rodando."; fi
-    pkill -f "xwinwrap.*mpv" 2>/dev/null || true
+    if alive; then kill "$(cat "$PIDFILE")" 2>/dev/null || true; fi
+    # mata o mpv filho também (herda VIDEO_WALLPAPER=1 no environ); sem isso ele
+    # continua tocando órfão mesmo com o xwinwrap morto
+    for d in /proc/[0-9]*/environ; do
+      [ -r "$d" ] || continue
+      if { tr '\0' '\n' <"$d" | grep -qx "VIDEO_WALLPAPER=1"; } 2>/dev/null; then
+        p="$(basename "$(dirname "$d")")"
+        if [[ "$p" != "$$" && "$p" != "$PPID" ]]; then kill "$p" 2>/dev/null || true; fi
+      fi
+    done
+    rm -f "$PIDFILE"
+    echo "Vídeo parado."
     ;;
   status)
     if alive; then echo "Rodando (pid $(cat "$PIDFILE"))."; else echo "Parado."; fi
