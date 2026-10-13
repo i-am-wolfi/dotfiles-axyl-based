@@ -1,0 +1,77 @@
+#!/usr/bin/env bash
+# usb-notify: anuncia (dunst) qualquer dispositivo USB conectado/removido.
+# Chamado pelo udev (como root): usb-notify add|remove <devpath> <kernel> <PRODUCT>
+#   ex: usb-notify add /devices/pci0000:00/0000:00:1d.0/usb2/2-1.2 2-1.2 13fe/5500/0100
+# Uso manual (teste): usb-notify --test   | instala a regra: usb-notify --install
+set -euo pipefail
+SELF="$HOME/.config/i3/bin/usb-notify"
+[ -x "$SELF" ] || SELF="$(readlink -f "$0")"
+
+rule_body() {
+  # printf com formato em aspas simples: $devpath/$env chegam literais p/ o udev,
+  # %%k vira %k, %s recebe $HOME. Sem mágica de quoting do bash.
+  printf '%s\n' '# USB no dunst (via ~/.config/i3/bin/usb-notify)'
+  printf 'ACTION=="add", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="%s/.config/i3/bin/usb-notify add $devpath %%k $env{PRODUCT}"\n' "$HOME"
+  printf 'ACTION=="remove", SUBSYSTEM=="usb", ENV{DEVTYPE}=="usb_device", RUN+="%s/.config/i3/bin/usb-notify remove $devpath %%k $env{PRODUCT}"\n' "$HOME"
+}
+
+if [[ "${1:-}" == "--install" ]]; then
+  rule_body | sudo tee /etc/udev/rules.d/99-usb-notify.rules >/dev/null
+  sudo udevadm control --reload-rules
+  sudo udevadm verify /etc/udev/rules.d/99-usb-notify.rules && echo "Regra instalada e válida em /etc/udev/rules.d/99-usb-notify.rules"
+  exit 0
+fi
+
+if [[ "${1:-}" == "--print-rule" ]]; then
+  rule_body
+  exit 0
+fi
+
+ACTION="${1:-}"; DEVPATH="${2:-}"; KERNEL="${3:-}"; PRODUCT_HEX="${4:-}"
+if [[ "$ACTION" == "--test" ]]; then
+  # usa o primeiro dispositivo real p/ testar o popup
+  for d in /sys/bus/usb/devices/*; do
+    if [[ -f "$d/product" && "$(basename "$d")" != usb* ]]; then
+      DEVPATH="${d#/sys}"; KERNEL="$(basename "$d")"; ACTION="add"; break
+    fi
+  done
+fi
+[[ "$ACTION" == "add" || "$ACTION" == "remove" ]] || { echo "Uso: usb-notify add|remove <devpath> <kernel> [PRODUCT] | --test | --install" >&2; exit 1; }
+
+# boot/coldplug: udev dispara p/ tudo de uma vez — ignora nos primeiros 90s
+up="$(cut -d. -f1 /proc/uptime 2>/dev/null || echo 999)"
+if [[ "$up" -lt 90 ]]; then exit 0; fi
+
+PRODUCT=""; MANUF=""
+if [[ -n "$DEVPATH" && -r "/sys$DEVPATH/product" ]]; then PRODUCT="$(cat "/sys$DEVPATH/product" 2>/dev/null | tr -d '\0' | xargs)"; fi
+if [[ -n "$DEVPATH" && -r "/sys$DEVPATH/manufacturer" ]]; then MANUF="$(cat "/sys$DEVPATH/manufacturer" 2>/dev/null | tr -d '\0' | xargs)"; fi
+if [[ -z "$PRODUCT" && -n "$PRODUCT_HEX" ]]; then PRODUCT="USB $PRODUCT_HEX"; fi
+[[ -z "$PRODUCT" ]] && PRODUCT="${KERNEL:-dispositivo USB}"
+
+if [[ "$ACTION" == "add" ]]; then TITLE="USB conectado"; ICON="drive-removable-media"
+else TITLE="USB removido"; ICON="drive-removable-media"; fi
+BODY="$PRODUCT"
+[[ -n "$MANUF" ]] && BODY="$BODY — $MANUF"
+
+send_user() {
+  notify-send -i "$ICON" "$TITLE" "$BODY" 2>/dev/null || true
+}
+
+if [[ "$(id -u)" -eq 0 ]]; then
+  # vindo do udev (root): descobre a sessão gráfica ativa
+  USER_NAME="$(loginctl --no-legend list-sessions 2>/dev/null | awk '$4 == "seat0" {print $3; exit}')"
+  [[ -z "$USER_NAME" ]] && USER_NAME="$(who 2>/dev/null | grep -m1 '(:[0-9]' | awk '{print $1}')"
+  [[ -z "$USER_NAME" ]] && exit 0
+  UID_NUM="$(id -u "$USER_NAME" 2>/dev/null)" || exit 0
+  export DBUS_SESSION_BUS_ADDRESS="unix:path=/run/user/$UID_NUM/bus"
+  if command -v runuser >/dev/null 2>&1; then
+    runuser -u "$USER_NAME" -- notify-send -i "$ICON" "$TITLE" "$BODY" 2>/dev/null || true
+  elif command -v sudo >/dev/null 2>&1; then
+    sudo -n -u "$USER_NAME" notify-send -i "$ICON" "$TITLE" "$BODY" 2>/dev/null || true
+  else
+    su -s /bin/sh "$USER_NAME" -c "notify-send -i '$ICON' '$TITLE' '$BODY'" 2>/dev/null || true
+  fi
+else
+  send_user
+fi
+echo "$TITLE: $BODY"

@@ -20,6 +20,13 @@ Script `~/.config/i3/bin/screenshot` (maim): salva em `~/Pictures/Screenshots`,
 copia p/ clipboard (xclip) e avisa no dunst. Requer: `sudo pacman -S maim xclip xdotool`.
 (O bloco antigo `takeshot` do sxhkdrc foi desativado — programa não existe; i3 assumiu o Print.)
 
+## USB no dunst
+Conectou/removeu qualquer USB → aviso no dunst (produto + fabricante).
+Script `~/.config/i3/bin/usb-notify` (acha a sessão gráfica via loginctl e
+manda notify como seu usuário; ignora a enxurrada do boot nos primeiros 90s).
+Ativar (precisa sudo 1x): `~/.config/i3/bin/usb-notify --install`
+Teste sem plugar nada: `~/.config/i3/bin/usb-notify --test`
+
 ## MaterialYou (estilo Noctalia/Monet, dinâmico)
 Tema `MaterialYou` baseado no `i3_blue`, com cores puxadas do wallpaper via matugen
 (`.config/matugen/config.toml` + `templates/` → polybar, dunst, alacritty do i3, bordas do i3).
