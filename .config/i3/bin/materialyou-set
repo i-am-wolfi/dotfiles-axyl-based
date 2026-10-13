@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # MaterialYou para i3wm (estilo Noctalia/Monet): puxa cores do wallpaper via matugen.
-# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp|gif]  |  sem arg: usa wallpaper.* atual
+# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp]  |  sem arg: usa wallpaper.* atual
 # Gera: polybar/colors, dunstrc, alacritty/colors.yml+alacritty.toml, rofi-theme.rasi, i3 config (borders) + aplica tudo.
 set -euo pipefail
 # trava: dois picks rápidos seguidos não se atropelam no meio da geração
@@ -13,7 +13,7 @@ MATUGEN_BIN="$(command -v matugen || echo "$HOME/.local/bin/matugen")"
 resolve_wall() {
     if [[ $# -ge 1 && -n "${1:-}" ]]; then echo "$1"; return 0; fi
     local ext f
-    for ext in jpg jpeg png webp gif JPG JPEG PNG WEBP GIF; do
+    for ext in jpg jpeg png webp JPG JPEG PNG WEBP; do
         f="$I3DIR/wallpaper.$ext"
         if [[ -f "$f" ]]; then echo "$f"; return 0; fi
     done
@@ -37,8 +37,8 @@ fi
 ext="${WALL##*.}"
 ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
 case "$ext" in
-  jpg|jpeg|png|webp|gif) ;;
-  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp/gif; vídeo dropado)" >&2; exit 1 ;;
+  jpg|jpeg|png|webp) ;;
+  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp; vídeo e gif dropados)" >&2; exit 1 ;;
 esac
 
 # 1. normaliza wallpaper: webp -> png (feh pode não ler webp; matugen lê, mas feh é o gargalo)
