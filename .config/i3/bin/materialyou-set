@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # MaterialYou para i3wm (estilo Noctalia/Monet): puxa cores do wallpaper via matugen.
-# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp]  |  sem arg: usa wallpaper.* atual
+# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp|mp4|mkv|webm]  |  sem arg: usa wallpaper.* atual
 # Gera: polybar/colors, dunstrc, alacritty/colors.yml+alacritty.toml, rofi-theme.rasi, i3 config (borders) + aplica tudo.
 set -euo pipefail
 # trava: dois picks rápidos seguidos não se atropelam no meio da geração
@@ -38,7 +38,17 @@ ext="${WALL##*.}"
 ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
 case "$ext" in
   jpg|jpeg|png|webp) ;;
-  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp)" >&2; exit 1 ;;
+  mp4|mkv|webm)
+    # vídeo: extrai 1 frame do meio p/ wallpaper.jpg (cores via matugen);
+    # p/ rodar o vídeo no fundo: video-wallpaper start <arquivo>
+    command -v ffmpeg >/dev/null 2>&1 || { echo "ffmpeg não instalado: sudo pacman -S ffmpeg" >&2; exit 1; }
+    DUR="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WALL" 2>/dev/null || echo 6)"
+    MID="$(printf '%.0f' "$(echo "${DUR%.*} 2" | awk '{print ($1+1)/$2}')")"
+    FRAME="$(mktemp /tmp/opencode/muframe.XXXXXX.jpg)"
+    ffmpeg -hide_banner -loglevel error -y -ss "$MID" -i "$WALL" -vframes 1 "$FRAME"
+    WALL="$FRAME"; ext="jpg"
+    ;;
+  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp/mp4/mkv/webm)" >&2; exit 1 ;;
 esac
 
 # 1. normaliza wallpaper: webp -> png (feh pode não ler webp; matugen lê, mas feh é o gargalo)

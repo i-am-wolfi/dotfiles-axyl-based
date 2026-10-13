@@ -20,6 +20,13 @@ Script `~/.config/i3/bin/screenshot` (maim): salva em `~/Pictures/Screenshots`,
 copia p/ clipboard (xclip) e avisa no dunst. Requer: `sudo pacman -S maim xclip xdotool`.
 (O bloco antigo `takeshot` do sxhkdrc foi desativado — programa não existe; i3 assumiu o Print.)
 
+## Wallpaper em vídeo (i3/X11)
+`xwinwrap + mpv`: instale com `pikaur -S xwinwrap-git` (mpv já vem no extra).
+`~/.config/i3/bin/video-wallpaper start <mp4|mkv|webm>` (mutado, loop, hwdec;
+`stop`/`status`). O feh continua por baixo como fallback.
+O picker (`$MOD+W`) já lista vídeos (thumb via ffmpeg); ao escolher um, o
+`materialyou-set` extrai 1 frame do meio p/ `wallpaper.jpg` (cores + fallback).
+
 ## USB no dunst
 Conectou/removeu qualquer USB → aviso no dunst (produto + fabricante).
 Script `~/.config/i3/bin/usb-notify` (acha a sessão gráfica via loginctl e

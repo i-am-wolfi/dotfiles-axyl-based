@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+# video-wallpaper: wallpaper em vídeo no i3/X11 (xwinwrap + mpv).
+# Uso: video-wallpaper start <arquivo.mp4|mkv|webm> | stop | status
+# Deps: mpv (extra) + xwinwrap (AUR: pikaur -S xwinwrap-git).
+# O feh continua por baixo como fallback; o vídeo roda mutado em loop com hwdec.
+# Cores MaterialYou do vídeo: rode materialyou-set <mesmo-arquivo> (extrai 1 frame).
+set -euo pipefail
+PIDFILE="$HOME/.cache/video-wallpaper.pid"
+
+need() { command -v "$1" >/dev/null 2>&1 || { echo "Falta $1" >&2; exit 1; }; }
+alive() { [[ -f "$PIDFILE" ]] && kill -0 "$(cat "$PIDFILE")" 2>/dev/null; }
+
+cmd="${1:-status}"
+case "$cmd" in
+  start)
+    need xwinwrap; need mpv
+    VID="${2:-}"; [[ -f "$VID" ]] || { echo "Uso: video-wallpaper start <video>" >&2; exit 1; }
+    "$0" stop >/dev/null 2>&1 || true
+    setsid xwinwrap -ov -ni -s -st -sp -b -nf -un -fdt -- \
+      mpv --fullscreen --no-stop-screensaver --vo=gpu --hwdec=auto \
+          --loop-file=inf --no-audio --panscan=1.0 \
+          --no-osc --no-input-default-bindings --input-vo-keyboard=no \
+          "$VID" >/dev/null 2>&1 < /dev/null &
+    echo $! >"$PIDFILE"
+    echo "Vídeo no fundo: $VID (pid $(cat "$PIDFILE"))"
+    ;;
+  stop)
+    if alive; then kill "$(cat "$PIDFILE")" 2>/dev/null || true; rm -f "$PIDFILE"; echo "Vídeo parado."; else rm -f "$PIDFILE"; echo "Nada rodando."; fi
+    pkill -f "xwinwrap.*mpv" 2>/dev/null || true
+    ;;
+  status)
+    if alive; then echo "Rodando (pid $(cat "$PIDFILE"))."; else echo "Parado."; fi
+    ;;
+  *) echo "Uso: video-wallpaper start|stop|status [video]" >&2; exit 1 ;;
+esac
