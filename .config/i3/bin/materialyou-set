@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # MaterialYou para i3wm (estilo Noctalia/Monet): puxa cores do wallpaper via matugen.
-# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp|gif|mp4|mkv|webm]  |  sem arg: usa wallpaper.* atual
+# Uso: materialyou-set [wallpaper.jpg|jpeg|png|webp|gif]  |  sem arg: usa wallpaper.* atual
 # Gera: polybar/colors, dunstrc, alacritty/colors.yml+alacritty.toml, rofi-theme.rasi, i3 config (borders) + aplica tudo.
 set -euo pipefail
 # trava: dois picks rápidos seguidos não se atropelam no meio da geração
@@ -38,21 +38,7 @@ ext="${WALL##*.}"
 ext="$(printf '%s' "$ext" | tr '[:upper:]' '[:lower:]')"
 case "$ext" in
   jpg|jpeg|png|webp|gif) ;;
-  mp4|mkv|webm)
-    # vídeo: extrai 1 frame do meio p/ wallpaper.jpg (cores via matugen) e
-    # o passo 3b toca o vídeo animado no fundo (precisa xwinwrap)
-    command -v ffmpeg >/dev/null 2>&1 || { echo "ffmpeg não instalado: sudo pacman -S ffmpeg" >&2; exit 1; }
-    ORIG_VIDEO="$WALL"
-    IS_VIDEO=1
-    DUR="$(ffprobe -v error -show_entries format=duration -of csv=p=0 "$WALL" 2>/dev/null || echo 6)"
-    DUR_INT="${DUR%%.*}"
-    [[ "$DUR_INT" =~ ^[0-9]+$ ]] || DUR_INT=6
-    MID=$(( (DUR_INT + 1) / 2 ))
-    FRAME="$(mktemp /tmp/opencode/muframe.XXXXXX.jpg)"
-    ffmpeg -hide_banner -loglevel error -y -ss "$MID" -i "$WALL" -vframes 1 "$FRAME"
-    WALL="$FRAME"; ext="jpg"
-    ;;
-  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp/gif/mp4/mkv/webm)" >&2; exit 1 ;;
+  *) echo "Extensão não suportada: .$ext (use jpg/jpeg/png/webp/gif; vídeo dropado)" >&2; exit 1 ;;
 esac
 
 # 1. normaliza wallpaper: webp -> png (feh pode não ler webp; matugen lê, mas feh é o gargalo)
@@ -95,20 +81,8 @@ if [[ -d "$I3DIR/themes/$THEME" ]]; then
   cp -f "$HOME/.config/rofi/theme.rasi" "$I3DIR/themes/$THEME/rofi/theme.rasi" 2>/dev/null || true
 fi
 
-# 3b. fundo animado: vídeo/gif toca via mpv (xwinwrap); imagem estática
-# para qualquer vídeo anterior (gif conta como vídeo: feh só mostra 1 frame).
-# NOTA: testa IS_VIDEO (ext foi reescrito p/ jpg após extrair o frame)
-if [[ "${IS_VIDEO:-0}" == 1 || "$ext" == "gif" ]]; then
-  SRC_VID="${ORIG_VIDEO:-$WALL}"
-  if command -v xwinwrap >/dev/null 2>&1; then
-    # 9>&-: player em loop herdaria o fd do flock e travaria o próximo pick p/ sempre
-    "$I3DIR/bin/video-wallpaper" start "$SRC_VID" 9>&- >/dev/null 2>&1 || true
-  else
-    notify-send -t 5000 "wallpaper animado" "Frame aplicado; instale xwinwrap-git p/ animar (pikaur -S xwinwrap-git)" 2>/dev/null || true
-  fi
-else
-  "$I3DIR/bin/video-wallpaper" stop >/dev/null 2>&1 || true
-fi
+# 3b. (wallpaper animado dropado: mp4 nunca tocou direito + picom; gif fica
+# estático no feh — só 1º frame. Sem autoplay nem stop aqui.)
 
 # 4. recarrega tudo (dunst via reload no mesmo processo: o pkill+start antigo
 # disputava o bus e um dunst sem -config assumia com cores padrão)
