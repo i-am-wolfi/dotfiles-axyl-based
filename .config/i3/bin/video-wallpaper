@@ -22,9 +22,9 @@ case "$cmd" in
     need xwinwrap; need mpv
     VID="${2:-}"; [[ -f "$VID" ]] || { echo "Uso: video-wallpaper start [--gpu|--x11] <video>" >&2; exit 1; }
     "$0" stop >/dev/null 2>&1 || true
-    setsid env VIDEO_WALLPAPER=1 xwinwrap -ov -ni -s -st -sp -b -nf -un -fdt -argb -- \
-      mpv --fullscreen --no-stop-screensaver --vo="$VO" --hwdec=auto \
-          --loop-file=inf --no-audio --panscan=1.0 \
+    setsid env VIDEO_WALLPAPER=1 xwinwrap -ov -fs -ni -s -st -sp -b -nf -un -fdt -argb -- \
+      mpv --wid=%WID --no-stop-screensaver --vo="$VO" --hwdec=auto \
+          --loop-file=inf --loop=inf --no-audio --panscan=1.0 \
           --no-osc --no-input-default-bindings --input-vo-keyboard=no \
           "$VID" >/dev/null 2>&1 < /dev/null &
     echo $! >"$PIDFILE"
